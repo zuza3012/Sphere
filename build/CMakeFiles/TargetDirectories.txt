@@ -1,0 +1,3 @@
+/home/zuzanna/Documents/openGL/praktyki/nowe/build/CMakeFiles/rebuild_cache.dir
+/home/zuzanna/Documents/openGL/praktyki/nowe/build/CMakeFiles/spheres.dir
+/home/zuzanna/Documents/openGL/praktyki/nowe/build/CMakeFiles/edit_cache.dir
