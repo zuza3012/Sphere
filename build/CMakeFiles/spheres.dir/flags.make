@@ -6,5 +6,5 @@ CXX_FLAGS = -std=c++0x -g
 
 CXX_DEFINES = -DGLEW_STATIC -DTW_NO_DIRECT3D -DTW_NO_LIB_PRAGMA -DTW_STATIC -D_CRT_SECURE_NO_WARNINGS
 
-CXX_INCLUDES = -I/home/zuzanna/Documents/openGL/praktyki/nowe/external/glfw-3.1.2/include -I/home/zuzanna/Documents/openGL/praktyki/nowe/external/glm-0.9.7.1 -I/home/zuzanna/Documents/openGL/praktyki/nowe/external/glew -I/home/zuzanna/Documents/openGL/praktyki/nowe/external/assimp-3.0.1270/include -I/home/zuzanna/Documents/openGL/praktyki/nowe/. 
+CXX_INCLUDES = -I/home/zuzanna/Documents/openGL/praktyki/Sphere/external/glfw-3.1.2/include -I/home/zuzanna/Documents/openGL/praktyki/Sphere/external/glm-0.9.7.1 -I/home/zuzanna/Documents/openGL/praktyki/Sphere/external/glew -I/home/zuzanna/Documents/openGL/praktyki/Sphere/external/assimp-3.0.1270/include -I/home/zuzanna/Documents/openGL/praktyki/Sphere/. 
 

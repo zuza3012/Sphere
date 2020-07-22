@@ -4,12 +4,17 @@
 #include <GLFW/glfw3.h>
 #include <fstream>
 #include <math.h>
+#include <typeinfo>
 
 const GLuint WIDTH = 800, HEIGHT = 600;
 
 
 
-GLfloat * DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint number_of_triangles){
+GLfloat* DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint number_of_triangles){
+    if( 1.0f > r){
+        std::cout << "Radius must be less or equal than 1\n" << "I will use default radius" << std::endl;   
+        r = 1.0f;
+    }
 
     GLuint number_of_points = number_of_triangles + 2;
     GLuint verticesSize = number_of_points * 3;
@@ -18,22 +23,83 @@ GLfloat * DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint numbe
     vertices[1] = y0;
     vertices[2] = z0;
 
-    for(int i = 0; i < number_of_points - 1; i++){
+    for(int i = 1; i < number_of_points - 1; i++){
         GLfloat alpha = 2 * M_PI * i / number_of_triangles * 180 / 3.14;
         //std::cout << alpha << std::endl;
-        vertices[3*i + 3] = x0 + r * cos(2 * M_PI * i  / number_of_triangles );
-        vertices[3*i + 4] = y0 + r * sin(2 * M_PI * i/ number_of_triangles );
-        vertices[3*i + 5] = z0;
-        std::cout <<  vertices[3*i + 3] << " " <<  vertices[3*i + 4] << " " <<  vertices[3*i + 5] << " kupa " << z0 << "\n";
+        vertices[3*i ] = x0 + r * cos(2 * M_PI * i  / number_of_triangles );
+        vertices[3*i + 1] = y0 + r * sin(2 * M_PI * i/ number_of_triangles );
+        vertices[3*i + 2] = z0;
+        //std::cout <<  vertices[3*i + 3] << " " <<  vertices[3*i + 4] << " " <<  vertices[3*i + 5] << " kupa " << z0 << "\n";
 
     }
+    std::cout << "s: " << sizeof(vertices) <<  std::endl;
 
      for(int i = 0; i < number_of_points; i++){
-        std::cout << vertices[3*i] << " " << vertices[3*i+1] << " " << vertices[3*i+2] << "\n";
+        //std::cout << vertices[3*i] << " " << vertices[3*i+1] << " " << vertices[3*i+2] << "\n";
 
     }
 
+    /*
+    GLuint size = number_of_triangles + 2;
+    GLfloat* vx = new GLfloat[size-1];
+    GLfloat* vy = new GLfloat[size-1];
+    GLfloat* vz = new GLfloat[size-1];
+    
+    GLfloat** vertices = new GLfloat*[size];
+    for(int i = 0; i < size; ++i)
+        vertices[i] = new GLfloat[3];
+
+    
+    for(int i = 0; i < size - 1; i++){
+       // GLfloat alpha = 2 * M_PI * i / number_of_triangles * 180 / 3.14;
+        //std::cout << alpha << std::endl;
+        vx[i] = x0 + r * cos((GLfloat) 2 * M_PI * i / number_of_triangles);
+        vy[i] = y0 + r * sin((GLfloat) 2 * M_PI * i / number_of_triangles);
+        vz[i] = z0;
+        std::cout <<  vx[i] << " " <<  vy[i] << " " <<  vz[i] << " kupa " << z0 << "\n";
+
+    }
+    std::cout << "spr" << std::endl;
+    
+    for(int i = 0; i < size; i++){
+        //std::cout << "i: " << i << std::endl;
+        if(0 == i){
+            vertices[i][0] = x0;
+            vertices[i][1] = y0;
+            vertices[i][2] = z0;
+            std::cout << vertices[i][0] << " " << vertices[i][1] << " " << vertices[i][2] << std::endl;
+            //std::cout << "kupcia" << std::endl;
+            continue;
+        }
+           
+        vertices[i][0] = vx[i-1];
+        vertices[i][1] = vy[i-1];
+        vertices[i][2] = vz[i-1];
+
+        std::cout << vertices[i][0] << " " << vertices[i][1] << " " << vertices[i][2] << std::endl;
+
+    }*/
+    /*
+    std::cout << "sizeof(vertices) " << sizeof(vertices) << "\n";
+    std::cout << "sizeof(vertices[0]) " << sizeof(vertices[0]) << "\n";
+    std::cout << "sizeof(vertices[0][0]) " << sizeof(vertices[0][0]) << "\n";
+
+    int rows = sizeof vertices / sizeof(vertices[0]);
+
+    int cols = sizeof vertices[0]/sizeof(vertices[0][0]);
+
+    std::cout << "rows: " << rows << std::endl;
+    std::cout << "cols: " << cols<< std::endl;
+
+     for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 3; j++)
+            std::cout << vertices[i][j] << " ";
+        std::cout << "\n";
+    }
+    */
+    
     return vertices;
+
 }
 
 std::string ReadTextFile(std::string& filepath){
@@ -155,13 +221,52 @@ int main(int argc, char *argv[]){
     
      
     GLfloat vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f
+        0.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        0.5f, 0.86f, 0.0f,
+        -0.5f, 0.86f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+        -0.5f, -0.86f, 0.0f,
+        0.5f, -0.86f, 0.0f,
+        1.0f, 0.0f, 0.0f
     };
+    std::cout << std::endl;
+    std::cout << "test" << std::endl;
 
-    GLfloat* circle = DraWCircle(0,0,0,3,6);
+    for(int i = 0; i < sizeof(vertices) / sizeof(GLfloat); i++){
+        
+        std::cout << vertices[i] << " ";
+
+        if( 0 == (i+1) % 3  )
+            std::cout << "\n";
+        
+    }
+
+    std::cout << std::endl;
   
+    GLfloat* circle = DraWCircle(0,0,0,1,6);
+    std::cout << std::endl;
+    
+   
+    
+     // print
+    // rows = 3;
+    // cols = 8;
+    std::cout << "s: " << sizeof(circle) <<  std::endl;
+    for(int i = 0; i < 24; i++){
+        
+        std::cout << circle[i] << " ";
+
+        if( 0 == (i+1) % 3  )
+            std::cout << "\n";
+        
+    }
+    
+    
+
+    std::cout << "typeinfo test " << typeid(vertices).name() << std::endl;
+    std::cout << "typeinfo circle " << typeid(circle).name() << std::endl;
+
       // vertex buffer - przechowuje veterxy
     GLuint VBO, VAO;
     glGenVertexArrays(1,&VAO);
@@ -172,9 +277,9 @@ int main(int argc, char *argv[]){
     // najpierw bind VAO, potem bind bind buffer + set attrib pointer
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER,sizeof(vertices), vertices, GL_STATIC_DRAW); // dodoajemy dane do bufora
+    glBufferData(GL_ARRAY_BUFFER,sizeof(circle), circle, GL_STATIC_DRAW); // dodoajemy dane do bufora
 
-
+    
     // mowimy openGL jak interpretowac dane
     glVertexAttribPointer(0,3, GL_FLOAT,GL_FALSE, 3 * sizeof(GLfloat),(GLvoid *) 0);
                                 // 0 - location = 0 dla position
@@ -210,7 +315,8 @@ int main(int argc, char *argv[]){
          // draw triangle
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES,0,3);
+        glDrawArrays(GL_TRIANGLE_FAN,0,/*sizeof(circle) / sizeof(circle[0])*/8);
+        
         //glDrawArrays(GL_TRIANGLE_FAN, 0, sizeof(circle) / sizeof(GLfloat));
          
         glBindVertexArray(0);

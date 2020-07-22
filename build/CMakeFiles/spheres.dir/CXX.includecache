@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/zuzanna/Documents/openGL/praktyki/nowe/src/main.cpp
+/home/zuzanna/Documents/openGL/praktyki/Sphere/src/main.cpp
 iostream
 -
 GL/glew.h
@@ -16,5 +16,7 @@ GLFW/glfw3.h
 fstream
 -
 math.h
+-
+typeinfo
 -
 

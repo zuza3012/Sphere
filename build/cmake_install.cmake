@@ -1,4 +1,4 @@
-# Install script for directory: /home/zuzanna/Documents/openGL/praktyki/nowe
+# Install script for directory: /home/zuzanna/Documents/openGL/praktyki/Sphere
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zuzanna/Documents/openGL/praktyki/nowe/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/zuzanna/Documents/openGL/praktyki/Sphere/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
