@@ -9,30 +9,6 @@
 
 const GLuint WIDTH = 800, HEIGHT = 600;
 
-GLfloat *slice_array(GLfloat *array, int start, int end) {
-    int numElements = (end - start + 1);
-    int numBytes = sizeof(int) * numElements;
-
-    GLfloat *slice = (GLfloat*)malloc(numBytes);
-    memcpy(slice, array + start, numBytes);
-
-    std::cout << "slice: " << std::endl;
-
-      for(int i = 0; i < end; i++){
-        
-        std::cout << slice[i] << " ";
-
-        if( 0 == (i+1) % 3  )
-            std::cout << "\n";
-        
-    }
-    
-    std::cout << ""<< std::endl;
-
-
-    return slice;
-}
-
 GLfloat* DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint number_of_triangles){
     if( 1.0f > r){
         std::cout << "Radius must be less or equal than 1\n" << "I will use default radius" << std::endl;   
@@ -62,65 +38,6 @@ GLfloat* DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint number
         //std::cout << vertices[3*i] << " " << vertices[3*i+1] << " " << vertices[3*i+2] << "\n";
 
     }
-
-    /*
-    GLuint size = number_of_triangles + 2;
-    GLfloat* vx = new GLfloat[size-1];
-    GLfloat* vy = new GLfloat[size-1];
-    GLfloat* vz = new GLfloat[size-1];
-    
-    GLfloat** vertices = new GLfloat*[size];
-    for(int i = 0; i < size; ++i)
-        vertices[i] = new GLfloat[3];
-
-    
-    for(int i = 0; i < size - 1; i++){
-       // GLfloat alpha = 2 * M_PI * i / number_of_triangles * 180 / 3.14;
-        //std::cout << alpha << std::endl;
-        vx[i] = x0 + r * cos((GLfloat) 2 * M_PI * i / number_of_triangles);
-        vy[i] = y0 + r * sin((GLfloat) 2 * M_PI * i / number_of_triangles);
-        vz[i] = z0;
-        std::cout <<  vx[i] << " " <<  vy[i] << " " <<  vz[i] << " kupa " << z0 << "\n";
-
-    }
-    std::cout << "spr" << std::endl;
-    
-    for(int i = 0; i < size; i++){
-        //std::cout << "i: " << i << std::endl;
-        if(0 == i){
-            vertices[i][0] = x0;
-            vertices[i][1] = y0;
-            vertices[i][2] = z0;
-            std::cout << vertices[i][0] << " " << vertices[i][1] << " " << vertices[i][2] << std::endl;
-            //std::cout << "kupcia" << std::endl;
-            continue;
-        }
-           
-        vertices[i][0] = vx[i-1];
-        vertices[i][1] = vy[i-1];
-        vertices[i][2] = vz[i-1];
-
-        std::cout << vertices[i][0] << " " << vertices[i][1] << " " << vertices[i][2] << std::endl;
-
-    }*/
-    /*
-    std::cout << "sizeof(vertices) " << sizeof(vertices) << "\n";
-    std::cout << "sizeof(vertices[0]) " << sizeof(vertices[0]) << "\n";
-    std::cout << "sizeof(vertices[0][0]) " << sizeof(vertices[0][0]) << "\n";
-
-    int rows = sizeof vertices / sizeof(vertices[0]);
-
-    int cols = sizeof vertices[0]/sizeof(vertices[0][0]);
-
-    std::cout << "rows: " << rows << std::endl;
-    std::cout << "cols: " << cols<< std::endl;
-
-     for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 3; j++)
-            std::cout << vertices[i][j] << " ";
-        std::cout << "\n";
-    }
-    */
     
     return vertices;
 
@@ -254,48 +171,10 @@ int main(int argc, char *argv[]){
         0.5f, -0.86f, 0.0f,
         1.0f, 0.0f, 0.0f
     };
-    std::cout << std::endl;
-    std::cout << "test" << std::endl;
-
-    for(int i = 0; i < sizeof(vertices) / sizeof(GLfloat); i++){
-        
-        std::cout << vertices[i] << " ";
-
-        if( 0 == (i+1) % 3  )
-            std::cout << "\n";
-        
-    }
-
-    std::cout << std::endl;
   
     GLfloat* circle =  new GLfloat[24];
     int n = 100;
     circle = DraWCircle(0,0,0,1,n);
-    
-    
-   // GLfloat* circle_slice = slice_array(circle,0,24);
-
-   
-    
-     // print
-    // rows = 3;
-    // cols = 8;
-    /*
-    std::cout << "s: " << sizeof(circle) <<  std::endl;
-    for(int i = 0; i < 24; i++){
-        
-        std::cout << circle_slice[i] << " ";
-
-        if( 0 == (i+1) % 3  )
-            std::cout << "\n";
-        
-    }
-    */
-    
-    
-
-    //std::cout << "typeinfo test " << typeid(vertices).name() << std::endl;
-    //std::cout << "typeinfo circle " << typeid(circle).name() << std::endl;
 
       // vertex buffer - przechowuje veterxy
     GLuint VBO, VAO;
@@ -326,14 +205,6 @@ int main(int argc, char *argv[]){
     glBindBuffer(GL_ARRAY_BUFFER, 0);// unbind buffer
     glBindVertexArray(0); // unbing vao
     
-    
-    
-/*
-    for(int i = 0; i < 7; i++){
-        std::cout << arr[3*i] << " " << arr[3*i+1] << " " << arr[3*i+2] << "\n";
-
-    }
-  */ 
 
 
     while(!glfwWindowShouldClose(window)){
