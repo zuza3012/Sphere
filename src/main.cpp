@@ -5,10 +5,33 @@
 #include <fstream>
 #include <math.h>
 #include <typeinfo>
+#include <string.h>
 
 const GLuint WIDTH = 800, HEIGHT = 600;
 
+GLfloat *slice_array(GLfloat *array, int start, int end) {
+    int numElements = (end - start + 1);
+    int numBytes = sizeof(int) * numElements;
 
+    GLfloat *slice = (GLfloat*)malloc(numBytes);
+    memcpy(slice, array + start, numBytes);
+
+    std::cout << "slice: " << std::endl;
+
+      for(int i = 0; i < end; i++){
+        
+        std::cout << slice[i] << " ";
+
+        if( 0 == (i+1) % 3  )
+            std::cout << "\n";
+        
+    }
+    
+    std::cout << ""<< std::endl;
+
+
+    return slice;
+}
 
 GLfloat* DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint number_of_triangles){
     if( 1.0f > r){
@@ -18,16 +41,17 @@ GLfloat* DraWCircle(GLfloat x0, GLfloat y0, GLfloat z0, GLfloat r, GLuint number
 
     GLuint number_of_points = number_of_triangles + 2;
     GLuint verticesSize = number_of_points * 3;
-    GLfloat* vertices = new GLfloat[verticesSize]();
+    GLfloat* vertices = new GLfloat[verticesSize];
+  
     vertices[0] = x0;
     vertices[1] = y0;
     vertices[2] = z0;
 
-    for(int i = 1; i < number_of_points - 1; i++){
+    for(int i = 1; i < number_of_points; i++){
         GLfloat alpha = 2 * M_PI * i / number_of_triangles * 180 / 3.14;
         //std::cout << alpha << std::endl;
-        vertices[3*i ] = x0 + r * cos(2 * M_PI * i  / number_of_triangles );
-        vertices[3*i + 1] = y0 + r * sin(2 * M_PI * i/ number_of_triangles );
+        vertices[3*i ] = x0 + r * cos(2 * M_PI * (i -1) / number_of_triangles );
+        vertices[3*i + 1] = y0 + r * sin(2 * M_PI * (i - 1)/ number_of_triangles );
         vertices[3*i + 2] = z0;
         //std::cout <<  vertices[3*i + 3] << " " <<  vertices[3*i + 4] << " " <<  vertices[3*i + 5] << " kupa " << z0 << "\n";
 
@@ -244,28 +268,34 @@ int main(int argc, char *argv[]){
 
     std::cout << std::endl;
   
-    GLfloat* circle = DraWCircle(0,0,0,1,6);
-    std::cout << std::endl;
+    GLfloat* circle =  new GLfloat[24];
+    int n = 100;
+    circle = DraWCircle(0,0,0,1,n);
     
+    
+   // GLfloat* circle_slice = slice_array(circle,0,24);
+
    
     
      // print
     // rows = 3;
     // cols = 8;
+    /*
     std::cout << "s: " << sizeof(circle) <<  std::endl;
     for(int i = 0; i < 24; i++){
         
-        std::cout << circle[i] << " ";
+        std::cout << circle_slice[i] << " ";
 
         if( 0 == (i+1) % 3  )
             std::cout << "\n";
         
     }
+    */
     
     
 
-    std::cout << "typeinfo test " << typeid(vertices).name() << std::endl;
-    std::cout << "typeinfo circle " << typeid(circle).name() << std::endl;
+    //std::cout << "typeinfo test " << typeid(vertices).name() << std::endl;
+    //std::cout << "typeinfo circle " << typeid(circle).name() << std::endl;
 
       // vertex buffer - przechowuje veterxy
     GLuint VBO, VAO;
@@ -277,11 +307,12 @@ int main(int argc, char *argv[]){
     // najpierw bind VAO, potem bind bind buffer + set attrib pointer
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER,sizeof(circle), circle, GL_STATIC_DRAW); // dodoajemy dane do bufora
+    size_t vertex_size = sizeof(GLfloat) * n * 3 * 3;
+    glBufferData(GL_ARRAY_BUFFER,(GLsizeiptr)vertex_size, circle, GL_DYNAMIC_DRAW); // dodoajemy dane do bufora
 
     
     // mowimy openGL jak interpretowac dane
-    glVertexAttribPointer(0,3, GL_FLOAT,GL_FALSE, 3 * sizeof(GLfloat),(GLvoid *) 0);
+    glVertexAttribPointer(0,3, GL_FLOAT,GL_FALSE, /*3 * sizeof(GLfloat)*/ 0,(GLvoid *) 0);
                                 // 0 - location = 0 dla position
                                 // 3 bo vec3
                                 // typ
@@ -315,7 +346,7 @@ int main(int argc, char *argv[]){
          // draw triangle
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLE_FAN,0,/*sizeof(circle) / sizeof(circle[0])*/8);
+        glDrawArrays(GL_TRIANGLE_FAN,0, n+2);
         
         //glDrawArrays(GL_TRIANGLE_FAN, 0, sizeof(circle) / sizeof(GLfloat));
          
